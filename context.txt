@@ -1,0 +1,47 @@
+Project Name: Financial Results Dashboard for Investor Relations Pages
+
+Tech Stack:
+- Backend: Express.js (Node.js)
+- Database: Supabase (PostgreSQL)
+- Frontend (already created): Two separate websites with Investor Relations pages
+- File Storage: Supabase Storage (for uploaded PDFs)
+
+Project Goal:
+Create a backend and admin dashboard that allows uploading quarterly financial result PDFs, selecting quarter and year, and then dynamically creating a card with a download button on the investor relations page of two existing websites.
+
+Features:
+1. Admin Dashboard (accessible only to authorized users):
+   - Upload PDF file of financial results.
+   - Select Year (e.g., 2024) and Quarter (Q1, Q2, Q3, Q4).
+   - Submit button to upload PDF to Supabase Storage and store metadata (year, quarter, PDF URL, timestamp) in Supabase DB.
+   - Optionally select for which website (site1, site2, or both) the card should be shown.
+
+2. Backend API (Express.js):
+   - POST /upload → handles PDF upload and metadata storage.
+   - GET /results?site=site1 → returns JSON list of financial result cards for a given site.
+   - Auth middleware for protecting the dashboard endpoints.
+
+3. Supabase Schema:
+   Table: `financial_results`
+   - id: uuid
+   - year: integer
+   - quarter: text (e.g., 'Q1')
+   - pdf_url: text
+   - website: text (e.g., 'site1', 'site2', or 'both')
+   - created_at: timestamp
+
+4. Investor Relations Page (already exists in both websites):
+   - Fetch data from backend API (`GET /results?site=site1` or `site2`)
+   - Render each record as a card showing:
+     - Quarter & Year
+     - "Download PDF" button (link to stored file)
+
+Other Notes:
+- CORS should be enabled for both websites.
+- Files should be publicly accessible via Supabase Storage URLs.
+- No need for frontend dashboard styling — function over form.
+
+Optional Enhancements (not required for MVP):
+- JWT-based auth for admin access.
+- Admin dashboard login page.
+
