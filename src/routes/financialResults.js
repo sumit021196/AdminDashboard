@@ -71,7 +71,7 @@ router.post('/upload', upload.single('pdf'), async (req, res) => {
 
         if (uploadError) {
             console.error('Upload error:', uploadError);
-            throw uploadError;
+            throw new Error(`Failed to upload file: ${uploadError.message}`);
         }
 
         // Get public URL
@@ -93,7 +93,7 @@ router.post('/upload', upload.single('pdf'), async (req, res) => {
 
         if (dbError) {
             console.error('Database error:', dbError);
-            throw dbError;
+            throw new Error(`Failed to store metadata: ${dbError.message}`);
         }
 
         res.json({ message: 'File uploaded successfully', data: dbData });
